@@ -21,11 +21,15 @@ def gather_temperatures(reader, i_date, i_low, i_high):
         }
     for row in reader:
         date = datetime.strptime(row[i_date], '%Y-%m-%d')
-        low_temperature = int(row[i_low])
-        high_temperature = int(row[i_high])
-        data['dates'].append(date)
-        data['lows'].append(low_temperature)
-        data['highs'].append(high_temperature)
+        try:
+            low_temperature = int(row[i_low])
+            high_temperature = int(row[i_high])
+        except ValueError:
+            print("Missing value.")
+        else:
+            data['dates'].append(date)
+            data['lows'].append(low_temperature)
+            data['highs'].append(high_temperature)
     return data
 
 def show_figure(data1, data2):
@@ -45,7 +49,7 @@ def show_figure(data1, data2):
 
     ax.set_title("Temperatures", fontsize=24)
     ax.set_xlabel('', fontsize=16)
-    ax.autofmt_xdate()
+    fig.autofmt_xdate()
     ax.set_ylabel("Temperature (F)", fontsize=16)
     ax.tick_params(labelsize=16)
 
