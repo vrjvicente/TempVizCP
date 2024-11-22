@@ -3,12 +3,12 @@ from matplotlib import pyplot as plt
 from pathlib import Path
 
 def index_lookup(header_row):
-    """Finds the indicies containing the given keywords and return them as
+    """Finds the indicies containing the given keywords and returns them as
     a list.
     """
     keywords = ['NAME', 'DATE', 'TMIN', 'TMAX']
     indicies = []
-    indicies = [i for key in keywords
+    indicies = [int(i) for key in keywords
                 for i, column_header in enumerate(header_row)
                 if column_header == key]
     return indicies
@@ -30,7 +30,7 @@ def gather_temperatures(reader, indicies):
             low_temperature = int(row[indicies[2]])
             high_temperature = int(row[indicies[3]])
         except ValueError:
-            print(f"Missing value from {date}.")
+            print(f"Data is missing for {date} from {name}.")
         else:
             data['name'].append(name)
             data['dates'].append(date)
@@ -39,7 +39,7 @@ def gather_temperatures(reader, indicies):
     return data
 
 def show_figure(data1, data2):
-    """Generates the figure."""
+    """Generates and shows the figure."""
 
     data1_name = set(data1['name']).pop()
     data2_name = set(data2['name']).pop()
@@ -85,7 +85,8 @@ def response():
         elif answer.lower() == 'n' or answer.lower() == 'no':
             return False
         else:
-            print("That is an incorrect response. (y/n)")
+            print("That is an incorrect response. "
+                  "Please try again. (y/n)")
 
 def saving_figure():
     """Asks the user for a name for the file and checks if the file already
@@ -98,12 +99,10 @@ def saving_figure():
         if path.exists() == True:
             print("That file name already exists. Do you want to "
                   "overwrite it? (y/n)")
-            action = response()
-            if action:
+            overwrite = response()
+            if overwrite:
                 plt.savefig(f'figures/{file_name}.png', dpi=150)
                 break
-            elif not action:
-                continue
         else:
             plt.savefig(f'figures/{file_name}.png', dpi=150)
             break
