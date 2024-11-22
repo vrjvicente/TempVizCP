@@ -1,16 +1,18 @@
 from datetime import datetime
 from matplotlib import pyplot as plt
 
-def index_lookup(header_row, name):
+def index_lookup(header_row):
     """Finds the index containing the given name and returns
     the index value.
     """
-    for index, column_header in enumerate(header_row):
-        if column_header == name:
-            index_value = int(index)
-    return index_value
+    keywords = ['DATE', 'TMIN', 'TMAX']
+    indicies = []
+    indicies = [i for key in keywords
+                for i, column_header in enumerate(header_row)
+                if column_header == key]
+    return indicies
 
-def gather_temperatures(reader, i_date, i_low, i_high):
+def gather_temperatures(reader, indicies):
     """Collects the dates and temperatures in the reader from the given 
     indicies and stores them into a dictionary to return.
     """
@@ -20,10 +22,10 @@ def gather_temperatures(reader, i_date, i_low, i_high):
         'highs': [],
         }
     for row in reader:
-        date = datetime.strptime(row[i_date], '%Y-%m-%d')
+        date = datetime.strptime(row[indicies[0]], '%Y-%m-%d')
         try:
-            low_temperature = int(row[i_low])
-            high_temperature = int(row[i_high])
+            low_temperature = int(row[indicies[1]])
+            high_temperature = int(row[indicies[2]])
         except ValueError:
             print("Missing value.")
         else:
@@ -45,7 +47,6 @@ def show_figure(data1, data2):
                     facecolor='blue', alpha=0.1)
     ax.fill_between(data2['dates'], data2['lows'], data2['highs'],
                     facecolor='blue', alpha=0.1)
-    
 
     ax.set_title("Temperatures", fontsize=24)
     ax.set_xlabel('', fontsize=16)
