@@ -1,42 +1,5 @@
-from datetime import datetime
 from matplotlib import pyplot as plt
 from pathlib import Path
-
-def index_lookup(header_row):
-    """Finds the indicies containing the given keywords and returns them as
-    a list.
-    """
-    keywords = ['NAME', 'DATE', 'TMIN', 'TMAX']
-    indicies = []
-    indicies = [int(i) for key in keywords
-                for i, column_header in enumerate(header_row)
-                if column_header == key]
-    return indicies
-
-def gather_temperatures(reader, indicies):
-    """Collects the names, dates, and temperatures in the reader from
-    the given indicies and stores them into a dictionary to return.
-    """
-    data = {
-        'name': [],
-        'dates': [],
-        'lows': [],
-        'highs': [],
-        }
-    for row in reader:
-        name = row[indicies[0]]
-        date = datetime.strptime(row[indicies[1]], '%Y-%m-%d')
-        try:
-            low_temperature = int(row[indicies[2]])
-            high_temperature = int(row[indicies[3]])
-        except ValueError:
-            print(f"Data is missing for {date} from {name}.")
-        else:
-            data['name'].append(name)
-            data['dates'].append(date)
-            data['lows'].append(low_temperature)
-            data['highs'].append(high_temperature)
-    return data
 
 def show_figure(data1, data2):
     """Generates and shows the figure."""
@@ -77,7 +40,6 @@ def save_figure():
 
 def response():
     """Returns a boolean depending on the user's response."""
-
     while True:
         answer = input("> ")
         if answer.lower() == 'y' or answer.lower() == 'yes':
