@@ -7,7 +7,12 @@ def collect_data(path_name):
     to return a dictionary.
     """
     path = Path(f'datas/{path_name}.csv')
+    # Returns an empty dictionary if the path does not exist in the 'datas'
+    # directory.
     if not path_exists(path):
+        print(f"\nThe file {path_name}.csv does not exist. \n"
+              "Please make sure that the file name is spelled correctly and "
+              "is located inside \nthe 'datas' directory.")
         return {}
     
     lines = path.read_text(encoding='utf-8').splitlines()
@@ -16,9 +21,13 @@ def collect_data(path_name):
     header_row = next(reader)
 
     indicies = index_lookup(header_row)
+    # Returns an empty dictionary if there's a problem with headers.
     if not indicies_correct(indicies):
+        print(f"There is an issue with the header on {path_name}.\n"
+              "Please check the file and its headers.")
         return {}
     
+    print("\nExtracting data...")
     data = gather_temperatures(reader, indicies)
     return data
 
@@ -27,7 +36,6 @@ def path_exists(path):
     if path.exists():
         return True
     else:
-        print("The path does not exist.")
         return False
 
 def index_lookup(header_row):
@@ -46,7 +54,6 @@ def indicies_correct(indicies):
     the required four values.
     """
     if len(indicies) != 4:
-        print("Header data incoorect.")
         return False
     return True
 
@@ -67,7 +74,7 @@ def gather_temperatures(reader, indicies):
             low_temperature = int(row[indicies[2]])
             high_temperature = int(row[indicies[3]])
         except ValueError:
-            print(f"Data is missing for {date} from {name}.")
+            print(f"Data is missing for {date.date()} from {name}.")
         else:
             data['name'].append(name)
             data['dates'].append(date)

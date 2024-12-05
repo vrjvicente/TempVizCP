@@ -1,11 +1,14 @@
 from matplotlib import pyplot as plt
 from pathlib import Path
 
-def show_figure(data1, data2):
+def show_figure(datas):
     """Generates and shows the figure."""
+    
+    data1 = datas[0]
+    data2 = datas[1]
 
-    data1_name = set(data1['name']).pop()
-    data2_name = set(data2['name']).pop()
+    data1_name = max(data1['name'])
+    data2_name = max(data2['name'])
 
     fig, ax = plt.subplots(figsize=[11,6], dpi=128)
     ax.plot(data1['dates'], data1['lows'], color='blue', alpha=0.5)
@@ -26,14 +29,16 @@ def show_figure(data1, data2):
     ax.grid(True, alpha=0.6)
     ax.legend(title='Stations', shadow=True)
 
+    print("\n---------- Generating figure... ----------")
     save_figure()
+    print()
     plt.show()
 
 def save_figure():
     """Asks the user if they would like to save the figure, then saves
     the file into the 'figures' directory if so.
     """
-    print("Would you like a copy of the figure? (y/n)")
+    print("\nWould you like a copy of the figure? (y/n)")
     action = response()
     if action:
         saving_figure()
@@ -56,7 +61,7 @@ def saving_figure():
     """
     while True:
         file_name = input("What do you want to name the saved "
-                        "figure as?\n> ")
+                          "figure as?\n> ")
         path = Path(f'figures/{file_name}.png')
         if path.exists() == True:
             print("That file name already exists. Do you want to "
@@ -64,7 +69,9 @@ def saving_figure():
             overwrite = response()
             if overwrite:
                 plt.savefig(f'figures/{file_name}.png', dpi=150)
+                print("Figure saved.")
                 break
         else:
             plt.savefig(f'figures/{file_name}.png', dpi=150)
+            print("Figure saved.")
             break
