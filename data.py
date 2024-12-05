@@ -1,6 +1,7 @@
 from pathlib import Path
 from datetime import datetime
 import csv
+import time
 
 def collect_data(path_name):
     """Points to the given path and collects the required information
@@ -28,7 +29,9 @@ def collect_data(path_name):
         return {}
     
     print("\nExtracting data...")
+    time.sleep(0.5)
     data = gather_temperatures(reader, indicies)
+    print("Data extracted.")
     return data
 
 def path_exists(path):
@@ -74,7 +77,7 @@ def gather_temperatures(reader, indicies):
             low_temperature = int(row[indicies[2]])
             high_temperature = int(row[indicies[3]])
         except ValueError:
-            print(f"Data is missing for {date.date()} from {name}.")
+            print(f"Missing data for {date.date()} from {name}.")
         else:
             data['name'].append(name)
             data['dates'].append(date)
