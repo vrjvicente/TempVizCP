@@ -31,7 +31,7 @@ def show_figure(datas):
 
     print("\n---------- Generating figure... ----------")
     save_figure()
-    print()
+    print("\n---------- Viewing figure... ----------")
     plt.show()
 
 def save_figure():
