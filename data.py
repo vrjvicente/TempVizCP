@@ -1,7 +1,14 @@
-from pathlib import Path
-from datetime import datetime
+"""
+This module takes a file name and extracts its temperature data.
+
+Note that this module extracts the .csv file that are taken from the
+NOAA Climate Data Online site. Because of this, the header of the file
+must include 'NAME', 'DATE', 'TMIN', and 'TMAX'.
+"""
 import csv
 import time
+from pathlib import Path
+from datetime import datetime
 
 def collect_data(path_name):
     """Points to the given path and collects the required information
@@ -29,7 +36,7 @@ def collect_data(path_name):
         return {}
     
     print("\nExtracting data...")
-    time.sleep(0.5)
+    time.sleep(0.5)  # Creates an artifical loading event.
     data = gather_temperatures(reader, indicies)
     print("Data extracted.")
     return data

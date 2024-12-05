@@ -1,9 +1,19 @@
-from matplotlib import pyplot as plt
+"""
+This module takes the list of two dictionaries of weather data and generates
+a plot showing the temperature ranges of the two datas.
+
+The dictionaries must include the following key-values pairs:
+    'name' -- List of names of the station associated with the data.
+    'date' -- List of dates asssociated with their temperature range.
+    'lows' -- List of the lowest temperatures from their respected dates.
+    'highs' -- List of the highest temperatures from their respected dates.
+"""
 from pathlib import Path
+
+from matplotlib import pyplot as plt
 
 def show_figure(datas):
     """Generates and shows the figure."""
-    
     data1 = datas[0]
     data2 = datas[1]
 
