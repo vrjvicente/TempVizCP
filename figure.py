@@ -1,8 +1,6 @@
-"""
-This module takes the list of two dictionaries of weather data and generates
-a plot showing the temperature ranges of the two datas.
+"""This module plots two datas of temperature range.
 
-The dictionaries must include the following key-values pairs:
+The dictionaries must include the key-values pairs:
     'name' -- List of names of the station associated with the data.
     'date' -- List of dates asssociated with their temperature range.
     'lows' -- List of the lowest temperatures from their respected dates.

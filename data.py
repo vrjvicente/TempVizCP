@@ -1,22 +1,26 @@
-"""
-This module takes a file name and extracts its temperature data.
+"""Extract temperature data from a CSV file.
 
-Note that this module extracts the .csv file that are taken from the
-NOAA Climate Data Online site. Because of this, the header of the file
-must include 'NAME', 'DATE', 'TMIN', and 'TMAX'.
+When importing, it is recommended to import collect_data, however,
+gather_temperatures can also be used if the correct arguments are given.
+
+Note that this module takes the CSV file that is taken from the
+NOAA Climate Data Online site. Because of this, index_lookup scans for the
+certain header titles to properly locate and retrieve the file's temperature
+information. Thus, the header of the file must include 'NAME', 'DATE', 'TMIN',
+and 'TMAX'.
 """
 import csv
 import time
 from pathlib import Path
 from datetime import datetime
 
-def collect_data(path_name):
-    """Points to the given path and collects the required information
-    to return a dictionary.
+def collect_data(path_name: str) -> dict[str, list] | dict:
+    """Return a file's temperature data.
+    
+    The file is pointed within the datas directory. Before calling the
+    function, make sure that the CSV file is located inside the folder.
     """
     path = Path(f'datas/{path_name}.csv')
-    # Returns an empty dictionary if the path does not exist in the 'datas'
-    # directory.
     if not path_exists(path):
         print(f"\nThe file {path_name}.csv does not exist. \n"
               "Please make sure that the file name is spelled correctly and "
@@ -29,48 +33,19 @@ def collect_data(path_name):
     header_row = next(reader)
 
     indicies = index_lookup(header_row)
-    # Returns an empty dictionary if there's a problem with headers.
     if not indicies_correct(indicies):
         print(f"There is an issue with the header on {path_name}.\n"
               "Please check the file and its headers.")
         return {}
     
-    print("\nExtracting data...")
-    time.sleep(0.5)  # Creates an artifical loading event.
     data = gather_temperatures(reader, indicies)
-    print("Data extracted.")
     return data
 
-def path_exists(path):
-    """Returns a boolean whether the given path exists or not."""
-    if path.exists():
-        return True
-    else:
-        return False
-
-def index_lookup(header_row):
-    """Finds the indicies containing the given keywords and returns them as
-    a list.
-    """
-    keywords = ['NAME', 'DATE', 'TMIN', 'TMAX']
-    indicies = []
-    indicies = [int(i) for key in keywords
-                for i, column_header in enumerate(header_row)
-                if column_header == key]
-    return indicies
-
-def indicies_correct(indicies):
-    """Returns a boolean whether the given indicies list have
-    the required four values.
-    """
-    if len(indicies) != 4:
-        return False
-    return True
-
-def gather_temperatures(reader, indicies):
-    """Collects the names, dates, and temperatures in the reader from
-    the given indicies and stores them into a dictionary to return.
-    """
+def gather_temperatures(
+        reader: object, indicies: list[int]) -> dict[str, list]:
+    """Return a dictionary of temperature data."""
+    print("\nExtracting data...")
+    time.sleep(0.5)  # Creates a natural loading time.
     data = {
         'name': [],
         'dates': [],
@@ -90,4 +65,27 @@ def gather_temperatures(reader, indicies):
             data['dates'].append(date)
             data['lows'].append(low_temperature)
             data['highs'].append(high_temperature)
+    print("Data extracted.")
     return data
+
+def index_lookup(header_row: list[str]) -> list[int]:
+    """Scan the header for keywords and return their indicies."""
+    keywords = ['NAME', 'DATE', 'TMIN', 'TMAX']
+    indicies = []
+    indicies = [int(i) for key in keywords
+                for i, column_header in enumerate(header_row)
+                if column_header == key]
+    return indicies
+
+def indicies_correct(indicies: list[int]) -> bool:
+    """Check if the list has four elements."""
+    if len(indicies) != 4:
+        return False
+    return True
+
+def path_exists(path: Path) -> bool:
+    """Check path existence."""
+    if path.exists():
+        return True
+    else:
+        return False
