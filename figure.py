@@ -43,16 +43,28 @@ def show_figure(datas):
     plt.show()
 
 def save_figure():
-    """Asks the user if they would like to save the figure, then saves
-    the file into the 'figures' directory if so.
+    """Asks the user for a name for the file and checks if the file already
+    exists in the 'figures' folder.
     """
     print("\nWould you like a copy of the figure? (y/n)")
     action = response()
-    if action:
-        saving_figure()
+    while action:
+        file_name = input("What do you want to name the saved "
+                          "figure as?\n> ")
+        path = Path(f'figures/{file_name}.png')
+        if path.exists() == True:
+            print("That file name already exists. Do you want to "
+                  "overwrite it? (y/n)")
+            overwrite = response()
+        if not overwrite:
+            continue
+
+        plt.savefig(f'figures/{file_name}.png', dpi=150)
+        print("Figure saved.")
+        break
 
 def response():
-    """Returns a boolean depending on the user's response."""
+    """Return a boolean based on the user's response."""
     while True:
         answer = input("> ")
         if answer.lower() == 'y' or answer.lower() == 'yes':
@@ -62,24 +74,3 @@ def response():
         else:
             print("That is an incorrect response. "
                   "Please try again. (y/n)")
-
-def saving_figure():
-    """Asks the user for a name for the file and checks if the file already
-    exists in the 'figures' folder.
-    """
-    while True:
-        file_name = input("What do you want to name the saved "
-                          "figure as?\n> ")
-        path = Path(f'figures/{file_name}.png')
-        if path.exists() == True:
-            print("That file name already exists. Do you want to "
-                  "overwrite it? (y/n)")
-            overwrite = response()
-            if overwrite:
-                plt.savefig(f'figures/{file_name}.png', dpi=150)
-                print("Figure saved.")
-                break
-        else:
-            plt.savefig(f'figures/{file_name}.png', dpi=150)
-            print("Figure saved.")
-            break
