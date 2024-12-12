@@ -47,6 +47,7 @@ def save_figure():
     print("\nWould you like a copy of the figure? (y/n)")
     action = response()
     while action:
+        overwrite = True
         file_name = input("What do you want to name the saved "
                           "figure as?\n> ")
         path = Path(f'figures/{file_name}.png')
