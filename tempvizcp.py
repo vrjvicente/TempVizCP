@@ -1,6 +1,8 @@
 from data import collect_data
 from figure import show_figure
 
+#test
+
 print("---------")
 print("TempVizCP")
 print("---------")
