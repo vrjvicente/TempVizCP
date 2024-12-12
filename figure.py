@@ -22,9 +22,9 @@ def show_figure(datas: list[dict[str, list]]):
 
     Exceptions:
 
-        KeyError: Will occur if one or more of the the required key-value pairs
+        KeyError: If one or more of the the required key-value pairs
         are missing.
-        ValueError: Will occur if one or more of the values of 'lows' and/or
+        ValueError: If one or more of the values of 'lows' and/or
         'highs' are not integers.
     """
     data1 = datas[0]
@@ -41,12 +41,12 @@ def show_figure(datas: list[dict[str, list]]):
     ax.plot(data2['dates'], data2['lows'], color='green', alpha=0.5,)
     ax.plot(data2['dates'], data2['highs'], color='#FF7900', alpha=0.5)
     ax.fill_between(data1['dates'], data1['lows'], data1['highs'],
-                    facecolor='blue', alpha=0.1, label=data1_name)
+                    facecolor='blue', alpha=0.2, label=data1_name)
     ax.fill_between(data2['dates'], data2['lows'], data2['highs'],
-                    facecolor='green', alpha=0.1, label=data2_name)
+                    facecolor='green', alpha=0.2, label=data2_name)
 
     ax.set_title("Temperature Data from Two Stations", fontsize=18)
-    ax.set_xlabel('Dates', fontsize=14)
+    ax.set_xlabel('Date', fontsize=14)
     fig.autofmt_xdate()
     ax.set_ylabel("Temperature (\xb0F)", fontsize=14)
     ax.tick_params(labelsize=14)

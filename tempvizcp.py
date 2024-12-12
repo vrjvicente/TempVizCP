@@ -1,15 +1,14 @@
 from data import collect_data
 from figure import show_figure
 
-
 print("---------")
 print("TempVizCP")
 print("---------")
 
-intro = ("This program plots the temperature range of two weather stations at "
-         "a certain \nperiod of time.")
-instruction = ("\nWeather datas are extracted from a .csv file. Make sure that "
-               "both files are \nincluded in the 'datas' directory before "
+intro = ("This program takes the temperature range of two data sets and plots "
+         "them into a figure.")
+instruction = ("\nDatas are extracted from a CSV file. Make sure that both "
+               "files are included in the datas directory\nbefore "
                "continuing.")
 print(intro, instruction)
 
@@ -27,3 +26,4 @@ while len(datas) != 2:
 
 if len(datas) == 2:
     show_figure(datas)
+    print("\nProgram ended.")
