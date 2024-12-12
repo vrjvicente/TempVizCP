@@ -10,7 +10,7 @@ from pathlib import Path
 
 from matplotlib import pyplot as plt
 
-def show_figure(datas):
+def show_figure(datas: dict[str, list]):
     """Generates and shows the figure."""
     data1 = datas[0]
     data2 = datas[1]
@@ -43,9 +43,7 @@ def show_figure(datas):
     plt.show()
 
 def save_figure():
-    """Asks the user for a name for the file and checks if the file already
-    exists in the 'figures' folder.
-    """
+    """Save the plot in the figures directory."""
     print("\nWould you like a copy of the figure? (y/n)")
     action = response()
     while action:
@@ -63,7 +61,7 @@ def save_figure():
         print("Figure saved.")
         break
 
-def response():
+def response() -> bool:
     """Return a boolean based on the user's response."""
     while True:
         answer = input("> ")
