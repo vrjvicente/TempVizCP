@@ -1,5 +1,5 @@
-from data import collect_data
-from figure import show_figure
+from getdata import collect_data
+from showfig import show_figure
 
 print("---------")
 print("TempVizCP")
