@@ -1,20 +1,37 @@
-"""This module plots two datas of temperature range.
+"""Plot and display the temperature ranges for two data sets.
 
-The dictionaries must include the key-values pairs:
-    'name' -- List of names of the station associated with the data.
-    'date' -- List of dates asssociated with their temperature range.
-    'lows' -- List of the lowest temperatures from their respected dates.
-    'highs' -- List of the highest temperatures from their respected dates.
+Make sure that the Matplotlib library is installed before using this module.
+
+When importing, it is recommended to use show_figure.
 """
 from pathlib import Path
 
 from matplotlib import pyplot as plt
 
-def show_figure(datas: dict[str, list]):
-    """Generates and shows the figure."""
+def show_figure(datas: list[dict[str, list]]):
+    """Generate and show the figure.
+    
+    The parameter passes a list of two dictionaries containing the two
+    weather datas. Each dictionary contains a list of temperature information
+    that must include following key-value pairs:
+
+        'name': A string representing the name of the station used.
+        'dates': A datetime object that represents the date of the weather.
+        'lows': An integer of the lowest temperature from the date.
+        'highs': An integer of the highest temperature from the date.
+
+    Exceptions:
+
+        KeyError: Will occur if one or more of the the required key-value pairs
+        are missing.
+        ValueError: Will occur if one or more of the values of 'lows' and/or
+        'highs' are not integers.
+    """
     data1 = datas[0]
     data2 = datas[1]
 
+    # If a dataset contains more than one station, the most used station will
+    # be its legend.
     data1_name = max(data1['name'])
     data2_name = max(data2['name'])
 
